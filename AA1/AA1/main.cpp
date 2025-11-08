@@ -2,17 +2,26 @@
 #include <stdlib.h>
 
 bool gameover = false;
-bool shipInstance1 = false;
-bool shipInstance2 = false;
-bool shipInstance3 = false;
-bool shipInstance4 = false;
 
-const short numRows = 7;
+bool firstShipPlace = false;
+bool secondShipPlace = false;
+bool thirdShipPlace = false;
+bool fourthShipPlace = false;
+
+const short numRows = 9;
 const short numCols = 9;
-const char ship1 = '3';
-const char ship2 = '4';
-const char ship3 = '5';
-const char ship4 = '6';
+
+const short ships = 4;
+
+const char firstShip = '3';
+const char secondShip = '4';
+const char thirdShip = '5';
+const char fourthShip = '6';
+
+const short firstShipLenght = 3;
+const short secondShipLenght = 4;
+const short thirdShipLenght = 5;
+const short fourthShipLenght = 6;
 
 const char water = '~';
 
@@ -23,73 +32,445 @@ char** mapSecondPlayer = new char* [numRows];
 
 void Ship1()
 {
-	
-		int newShipX;
-		int newShipY;
-		int direction = rand() % (4 - 1) + 1;
+	for (short i = 0; i < ships; i++)
+	{
+		short newShipX;
+		short newShipY;
+		short direction = rand() % (4 - 1) + 1;
+		char ship;
+		bool canPlace = false;
 
-		switch (direction)
+		if (!firstShipPlace)
 		{
-		case 1:
-			do
+			ship = firstShip;
+
+			switch (direction)
 			{
-				newShipX = rand() % (numRows - 6) + 3;
-				newShipY = rand() % (numCols - 6) + 3;
+			case 1:
 
-			} while (mapFirstPlayer[newShipX][newShipY] != water && mapFirstPlayer[newShipX + 1][newShipY] != water && mapFirstPlayer[newShipX + 2][newShipY] != water);
+				do
+				{
+					newShipX = rand() % (numRows - 6) + 3;
+					newShipY = rand() % (numCols - 6) + 3;
 
-			mapFirstPlayer[newShipX][newShipY] = ship1;
-			mapFirstPlayer[newShipX + 1][newShipY] = ship1;
-			mapFirstPlayer[newShipX + 2][newShipY] = ship1;
+					short freeBoxes = 0;
 
-			break;
+					//Utilizo un for para comprovar los espacios de la dirección donde se pondra el barco y porque la condición del while me queda muy larga
+					for (short i = 0; i < firstShipLenght; i++)
+					{
+						if (mapFirstPlayer[newShipX + i][newShipY] == water)
+							freeBoxes++;
 
-		case 2:
-			do
-			{
-				newShipX = rand() % (numRows - 6) + 3;
-				newShipY = rand() % (numCols - 6) + 3;
+						if (freeBoxes == firstShipLenght)
+							canPlace = true;
+					}
 
-			} while (mapFirstPlayer[newShipX][newShipY] != water && mapFirstPlayer[newShipX][newShipY + 1] != water && mapFirstPlayer[newShipX][newShipY + 2] != water);
+				} while (!canPlace);
 
-			mapFirstPlayer[newShipX][newShipY] = ship1;
-			mapFirstPlayer[newShipX][newShipY + 1] = ship1;
-			mapFirstPlayer[newShipX][newShipY + 2] = ship1;
+				for (short i = 0; i < firstShipLenght; i++)
+				{
+					mapFirstPlayer[newShipX + i][newShipY] = ship;
+				}
+				break;
 
-			break;
+			case 2:
+				do
+				{
+					newShipX = rand() % (numRows - 6) + 3;
+					newShipY = rand() % (numCols - 6) + 3;
 
-		case 3:
-			do
-			{
-				newShipX = rand() % (numRows - 6) + 3;
-				newShipY = rand() % (numCols - 6) + 3;
+					short freeBoxes = 0;
 
-			} while (mapFirstPlayer[newShipX][newShipY] != water && mapFirstPlayer[newShipX - 1][newShipY] != water && mapFirstPlayer[newShipX - 2][newShipY] != water);
+					for (short i = 0; i < firstShipLenght; i++)
+					{
+						if (mapFirstPlayer[newShipX][newShipY + i] == water)
+							freeBoxes++;
 
-			mapFirstPlayer[newShipX][newShipY] = ship1;
-			mapFirstPlayer[newShipX - 1][newShipY] = ship1;
-			mapFirstPlayer[newShipX - 2][newShipY] = ship1;
+						if (freeBoxes == firstShipLenght)
+							canPlace = true;
+					}
 
-			break;
+				} while (!canPlace);
 
-		case 4:
-			do
-			{
-				newShipX = rand() % (numRows - 6) + 3;
-				newShipY = rand() % (numCols - 6) + 3;
+				for (short i = 0; i < firstShipLenght; i++)
+				{
+					mapFirstPlayer[newShipX][newShipY + i] = ship;
+				}
 
-			} while (mapFirstPlayer[newShipX][newShipY] != water && mapFirstPlayer[newShipX][newShipY - 1] != water && mapFirstPlayer[newShipX][newShipY - 2] != water);
+				break;
 
-			mapFirstPlayer[newShipX][newShipY] = ship1;
-			mapFirstPlayer[newShipX][newShipY - 1] = ship1;
-			mapFirstPlayer[newShipX][newShipY - 2] = ship1;
+			case 3:
+				do
+				{
+					newShipX = rand() % (numRows - 6) + 3;
+					newShipY = rand() % (numCols - 6) + 3;
 
-			break;
-		default:
-			std::cout << "No se puede poner un barco";
-			break;
+					short freeBoxes = 0;
+
+					for (short i = 0; i < firstShipLenght; i++)
+					{
+						if (mapFirstPlayer[newShipX - i][newShipY] == water)
+							freeBoxes++;
+
+						if (freeBoxes == firstShipLenght)
+							canPlace = true;
+					}
+
+				} while (!canPlace);
+
+				for (short i = 0; i < firstShipLenght; i++)
+				{
+					mapFirstPlayer[newShipX - i][newShipY] = ship;
+				}
+
+				break;
+
+			case 4:
+				do
+				{
+					newShipX = rand() % (numRows - 6) + 3;
+					newShipY = rand() % (numCols - 6) + 3;
+
+					short freeBoxes = 0;
+
+					for (short i = 0; i < firstShipLenght; i++)
+					{
+						if (mapFirstPlayer[newShipX][newShipY - i] == water)
+							freeBoxes++;
+
+						if (freeBoxes == firstShipLenght)
+							canPlace = true;
+					}
+
+				} while (!canPlace);
+
+				for (short i = 0; i < firstShipLenght; i++)
+				{
+					mapFirstPlayer[newShipX][newShipY - i] = ship;
+				}
+
+				break;
+			default:
+				std::cout << "No se puede poner un barco";
+				break;
+			}
+
+			firstShipPlace = true;
 		}
-		shipInstance1 = true;
+		else if (!secondShipPlace)
+		{
+			ship = secondShip;
+
+			switch (direction)
+			{
+			case 1:
+
+				do
+				{
+					newShipX = rand() % (numRows - 6) + 3;
+					newShipY = rand() % (numCols - 6) + 3;
+
+					short freeBoxes = 0;
+
+					//Utilizo un for para comprovar los espacios de la dirección donde se pondra el barco y porque la condición del while me queda muy larga
+					for (short i = 0; i < firstShipLenght; i++)
+					{
+						if (mapFirstPlayer[newShipX + i][newShipY] == water)
+							freeBoxes++;
+
+						if (freeBoxes == firstShipLenght)
+							canPlace = true;
+					}
+
+				} while (!canPlace);
+
+				for (short i = 0; i < firstShipLenght; i++)
+				{
+					mapFirstPlayer[newShipX + i][newShipY] = ship;
+				}
+				break;
+
+			case 2:
+				do
+				{
+					newShipX = rand() % (numRows - 6) + 3;
+					newShipY = rand() % (numCols - 6) + 3;
+
+					short freeBoxes = 0;
+
+					for (short i = 0; i < firstShipLenght; i++)
+					{
+						if (mapFirstPlayer[newShipX][newShipY + i] == water)
+							freeBoxes++;
+
+						if (freeBoxes == firstShipLenght)
+							canPlace = true;
+					}
+
+				} while (!canPlace);
+
+				for (short i = 0; i < firstShipLenght; i++)
+				{
+					mapFirstPlayer[newShipX][newShipY + i] = ship;
+				}
+
+				break;
+
+			case 3:
+				do
+				{
+					newShipX = rand() % (numRows - 6) + 3;
+					newShipY = rand() % (numCols - 6) + 3;
+
+					short freeBoxes = 0;
+
+					for (short i = 0; i < firstShipLenght; i++)
+					{
+						if (mapFirstPlayer[newShipX - i][newShipY] == water)
+							freeBoxes++;
+
+						if (freeBoxes == firstShipLenght)
+							canPlace = true;
+					}
+
+				} while (!canPlace);
+
+				for (short i = 0; i < firstShipLenght; i++)
+				{
+					mapFirstPlayer[newShipX - i][newShipY] = ship;
+				}
+
+				break;
+
+			case 4:
+				do
+				{
+					newShipX = rand() % (numRows - 6) + 3;
+					newShipY = rand() % (numCols - 6) + 3;
+
+					short freeBoxes = 0;
+
+					for (short i = 0; i < firstShipLenght; i++)
+					{
+						if (mapFirstPlayer[newShipX][newShipY - i] == water)
+							freeBoxes++;
+
+						if (freeBoxes == firstShipLenght)
+							canPlace = true;
+					}
+
+				} while (!canPlace);
+
+				for (short i = 0; i < firstShipLenght; i++)
+				{
+					mapFirstPlayer[newShipX][newShipY - i] = ship;
+				}
+
+				break;
+			default:
+				std::cout << "No se puede poner un barco";
+				break;
+			}
+
+			secondShipPlace = true;
+		}
+		else if (!thirdShipPlace)
+		{
+			ship = thirdShip;
+
+			switch (direction)
+			{
+			case 1:
+
+				do
+				{
+					newShipX = rand() % (numRows - 6) + 3;
+					newShipY = rand() % (numCols - 6) + 3;
+
+					short freeBoxes = 0;
+
+					//Utilizo un for para comprovar los espacios de la dirección donde se pondra el barco y porque la condición del while me queda muy larga
+					for (short i = 0; i < firstShipLenght; i++)
+					{
+						if (mapFirstPlayer[newShipX + i][newShipY] == water)
+							freeBoxes++;
+
+						if (freeBoxes == firstShipLenght)
+							canPlace = true;
+					}
+
+				} while (!canPlace);
+
+				for (short i = 0; i < firstShipLenght; i++)
+				{
+					mapFirstPlayer[newShipX + i][newShipY] = ship;
+				}
+				break;
+
+			case 2:
+				do
+				{
+					newShipX = rand() % (numRows - 6) + 3;
+					newShipY = rand() % (numCols - 6) + 3;
+
+					short freeBoxes = 0;
+
+					for (short i = 0; i < firstShipLenght; i++)
+					{
+						if (mapFirstPlayer[newShipX][newShipY + i] == water)
+							freeBoxes++;
+
+						if (freeBoxes == firstShipLenght)
+							canPlace = true;
+					}
+
+				} while (!canPlace);
+
+				for (short i = 0; i < firstShipLenght; i++)
+				{
+					mapFirstPlayer[newShipX][newShipY + i] = ship;
+				}
+
+				break;
+
+			case 3:
+				do
+				{
+					newShipX = rand() % (numRows - 6) + 3;
+					newShipY = rand() % (numCols - 6) + 3;
+
+					short freeBoxes = 0;
+
+					for (short i = 0; i < firstShipLenght; i++)
+					{
+						if (mapFirstPlayer[newShipX - i][newShipY] == water)
+							freeBoxes++;
+
+						if (freeBoxes == firstShipLenght)
+							canPlace = true;
+					}
+
+				} while (!canPlace);
+
+				for (short i = 0; i < firstShipLenght; i++)
+				{
+					mapFirstPlayer[newShipX - i][newShipY] = ship;
+				}
+
+				break;
+
+			case 4:
+				do
+				{
+					newShipX = rand() % (numRows - 6) + 3;
+					newShipY = rand() % (numCols - 6) + 3;
+
+					short freeBoxes = 0;
+
+					for (short i = 0; i < firstShipLenght; i++)
+					{
+						if (mapFirstPlayer[newShipX][newShipY - i] == water)
+							freeBoxes++;
+
+						if (freeBoxes == firstShipLenght)
+							canPlace = true;
+					}
+
+				} while (!canPlace);
+
+				for (short i = 0; i < firstShipLenght; i++)
+				{
+					mapFirstPlayer[newShipX][newShipY - i] = ship;
+				}
+
+				break;
+			default:
+				std::cout << "No se puede poner un barco";
+				break;
+			}
+
+			thirdShipPlace = true;
+		}
+		/*if (!fourthShipPlace)
+		{
+			ship = fourthShip;
+
+			switch (1)
+			{
+			case 1:
+				do
+				{
+					newShipX = rand() % (numRows - 6) + 3;
+					newShipY = rand() % (numCols - 6) + 3;
+
+					short freeBoxes = 0;
+
+					for (short i = 0; i < fourthShipLenght; i++)
+					{
+						if(mapFirstPlayer[newShipX + i][newShipY] == water)
+							freeBoxes++;
+						if (freeBoxes == fourthShipLenght)
+							canPlace = true;
+					}
+
+				} while (!canPlace);
+
+				for (short i = 0; i < fourthShipLenght; i++)
+				{
+					mapFirstPlayer[newShipX + i][newShipY] = ship;
+				}
+
+				break;
+
+			case 2:
+				do
+				{
+					newShipX = rand() % (numRows - 6) + 3;
+					newShipY = rand() % (numCols - 6) + 3;
+
+				} while (mapFirstPlayer[newShipX][newShipY] != water && mapFirstPlayer[newShipX][newShipY + 1] != water && mapFirstPlayer[newShipX][newShipY + 2] != water);
+
+				mapFirstPlayer[newShipX][newShipY] = ship;
+				mapFirstPlayer[newShipX][newShipY + 1] = ship;
+				mapFirstPlayer[newShipX][newShipY + 2] = ship;
+
+				break;
+
+			case 3:
+				do
+				{
+					newShipX = rand() % (numRows - 6) + 3;
+					newShipY = rand() % (numCols - 6) + 3;
+
+				} while (mapFirstPlayer[newShipX][newShipY] != water && mapFirstPlayer[newShipX - 1][newShipY] != water && mapFirstPlayer[newShipX - 2][newShipY] != water);
+
+				mapFirstPlayer[newShipX][newShipY] = ship;
+				mapFirstPlayer[newShipX - 1][newShipY] = ship;
+				mapFirstPlayer[newShipX - 2][newShipY] = ship;
+
+				break;
+
+			case 4:
+				do
+				{
+					newShipX = rand() % (numRows - 6) + 3;
+					newShipY = rand() % (numCols - 6) + 3;
+
+				} while (mapFirstPlayer[newShipX][newShipY] != water && mapFirstPlayer[newShipX][newShipY - 1] != water && mapFirstPlayer[newShipX][newShipY - 2] != water);
+
+				mapFirstPlayer[newShipX][newShipY] = ship;
+				mapFirstPlayer[newShipX][newShipY - 1] = ship;
+				mapFirstPlayer[newShipX][newShipY - 2] = ship;
+
+				break;
+			default:
+				std::cout << "No se puede poner un barco";
+				break;
+			}
+
+			fourthShipPlace = true;
+		}*/
+	}
 }
 
 int main()
@@ -137,7 +518,7 @@ int main()
 		std::cout << "Tablero jugador 1" << std::endl;
 		
 		////Spaguetti code ship1
-		if(!shipInstance1)
+		if(!firstShipPlace)
 			Ship1();
 
 		////Spaguetti Code ship2
