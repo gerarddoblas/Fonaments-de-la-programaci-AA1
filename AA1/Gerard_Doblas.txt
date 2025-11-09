@@ -1,0 +1,3 @@
+Los comentarios añadidos, han sido añadidos, por si el corrector tiene dudas de el uso de las variables.
+En una situación de trabajo real, pondría un comentario breve diciendo que hace cada estructura del código.
+Ej: Aquí se dibuja el mapa. Aquí inicializo el mapa.
